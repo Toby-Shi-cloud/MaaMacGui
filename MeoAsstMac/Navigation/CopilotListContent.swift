@@ -12,7 +12,23 @@ struct CopilotListContent: View {
 
     var body: some View {
         ForEach($context.copilotList) { $item in
-            Toggle(item.description, isOn: $item.isOn)
+            Toggle(isOn: $item.isOn) {
+                HStack(spacing: 6) {
+                    Text(item.stageCode)
+                        .fontWeight(.medium)
+                    if !item.stageName.isEmpty && item.stageName != item.stageCode {
+                        Text(item.stageName)
+                            .foregroundStyle(.secondary)
+                            .lineLimit(1)
+                    }
+                    if item.isRaid == true {
+                        Text("突袭")
+                            .font(.caption)
+                            .foregroundStyle(.orange)
+                    }
+                }
+            }
+            .help(item.description)
         }
     }
 }

@@ -4,6 +4,126 @@
     "" : {
       "shouldTranslate" : false
     },
+    "作业执行" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Job execution"
+          }
+        }
+      }
+    },
+    "借助战" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support unit"
+          }
+        }
+      }
+    },
+    "助战干员名称" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support operator name"
+          }
+        }
+      }
+    },
+    "追加自定干员" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Additional operators"
+          }
+        }
+      }
+    },
+    "编辑…" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit…"
+          }
+        }
+      }
+    },
+    "保存" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        }
+      }
+    },
+    "突袭" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Challenge"
+          }
+        }
+      }
+    },
+    "移除干员" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove operator"
+          }
+        }
+      }
+    },
+    "按顺序追加干员；技能 0 表示保持当前技能。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add operators in order. Skill 0 keeps the current skill."
+          }
+        }
+      }
+    },
+    "自动编队可能无法识别带有「特别关注」标记的干员" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auto formation may not recognize operators marked as favorites."
+          }
+        }
+      }
+    },
+    "跳过技能等级、模组等前置检查，可能导致作业无法正常运行；干员精英化等级仍须满足要求。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skip skill and module requirements. The job may fail; elite level requirements still apply."
+          }
+        }
+      }
+    },
+    "缺少一名干员时可尝试借助战；缺少多名干员时请更换作业。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try a support unit if one operator is missing. Choose another job if several are missing."
+          }
+        }
+      }
+    },
     "“开局干员”使用助战" : {
       "localizations" : {
         "ko" : {
