@@ -12,24 +12,58 @@ struct CopilotListContent: View {
 
     var body: some View {
         ForEach($context.copilotList) { $item in
-            Toggle(isOn: $item.isOn) {
-                HStack(spacing: 6) {
-                    Text(item.stageCode)
-                        .fontWeight(.medium)
-                    if !item.stageName.isEmpty && item.stageName != item.stageCode {
-                        Text(item.stageName)
-                            .foregroundStyle(.secondary)
-                            .lineLimit(1)
-                    }
-                    if item.isRaid == true {
-                        Text("突袭")
-                            .font(.caption)
-                            .foregroundStyle(.orange)
+            let itemID = item.id
+            let index = context.copilotList.firstIndex { $0.id == itemID } ?? 0
+            HStack {
+                Toggle(isOn: $item.isOn) {
+                    HStack(spacing: 6) {
+                        Text(item.stageCode)
+                            .fontWeight(.medium)
+                        if !item.stageName.isEmpty && item.stageName != item.stageCode {
+                            Text(item.stageName)
+                                .foregroundStyle(.secondary)
+                                .lineLimit(1)
+                        }
+                        if item.isRaid == true {
+                            Text("突袭")
+                                .font(.caption)
+                                .foregroundStyle(.orange)
+                        }
                     }
                 }
+                .help(item.description)
+                Button {
+                    move(itemID, by: -1)
+                } label: {
+                    Image(systemName: "arrow.up")
+                }
+                .disabled(index == 0)
+                .help("上移作业")
+                Button {
+                    move(itemID, by: 1)
+                } label: {
+                    Image(systemName: "arrow.down")
+                }
+                .disabled(index >= context.copilotList.count - 1)
+                .help("下移作业")
+                Button {
+                    context.copilotList.removeAll { $0.id == itemID }
+                } label: {
+                    Image(systemName: "xmark")
+                }
+                .help("移除作业")
             }
-            .help(item.description)
+            .buttonStyle(.borderless)
         }
+    }
+
+    private func move(_ id: CopilotContext.ItemID, by offset: Int) {
+        guard let index = context.copilotList.firstIndex(where: { $0.id == id }),
+            context.copilotList.indices.contains(index + offset)
+        else {
+            return
+        }
+        context.copilotList.swapAt(index, index + offset)
     }
 }
 

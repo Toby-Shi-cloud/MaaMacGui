@@ -4,6 +4,56 @@
     "" : {
       "shouldTranslate" : false
     },
+    "加入作业列表" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add to job list"
+          }
+        }
+      }
+    },
+    "自定义作业列表" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Custom job list"
+          }
+        }
+      }
+    },
+    "上移作业" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Move job up"
+          }
+        }
+      }
+    },
+    "下移作业" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Move job down"
+          }
+        }
+      }
+    },
+    "移除作业" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove job"
+          }
+        }
+      }
+    },
     "作业执行" : {
       "localizations" : {
         "en" : {

@@ -146,11 +146,12 @@ extension NewViewModel {
             }
 
             config.filename = nil
-            config.copilot_list = copilot.copilotList.filter(\.isOn).map {
+            config.copilot_list = copilot.copilotList.filter(\.isOn).enumerated().map { index, item in
                 .init(
-                    filename: $0.url.path(percentEncoded: false),
+                    id: index,
+                    filename: item.url.path(percentEncoded: false),
                     nav_name_override: nil,
-                    is_raid: $0.isRaid ?? false)
+                    is_raid: item.isRaid ?? false)
             }
 
             switch kind {

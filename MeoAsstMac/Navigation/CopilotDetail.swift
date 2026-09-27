@@ -150,7 +150,7 @@ private struct AddPopover: View {
     private func addCopilots(_ results: Result<[URL], Error>) {
         do {
             let urls = try results.get()
-            var lastURL: URL?
+            var importedURLs = [URL]()
             for url in urls {
                 guard url.startAccessingSecurityScopedResource() else {
                     print("Failed to access \(url.path(percentEncoded: false))")
@@ -159,9 +159,24 @@ private struct AddPopover: View {
                 defer {
                     url.stopAccessingSecurityScopedResource()
                 }
-                lastURL = try FileManager.default.copyCopilotToExternalDirectory(at: url)
+                importedURLs.append(try FileManager.default.copyCopilotToExternalDirectory(at: url))
             }
-            newModel.lastImportedCopilot = lastURL
+            if importedURLs.count > 1 {
+                Task {
+                    var added = false
+                    for url in importedURLs {
+                        added = await newModel.copilot.addToList(at: url) || added
+                    }
+                    if added {
+                        newModel.copilot.selection = nil
+                        newModel.copilot.category = .list
+                    } else {
+                        newModel.lastImportedCopilot = importedURLs.last
+                    }
+                }
+            } else {
+                newModel.lastImportedCopilot = importedURLs.last
+            }
         } catch {
             print(error)
         }

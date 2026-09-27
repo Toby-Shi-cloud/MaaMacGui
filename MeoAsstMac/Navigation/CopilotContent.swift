@@ -343,7 +343,7 @@ extension URL {
 extension CopilotContext {
     var isReady: Bool {
         if category == .list {
-            return copilotSet != nil && !copilotList.isEmpty
+            return copilotSet != nil && copilotList.contains(where: \.isOn)
         }
         if case .copilot = content {
             return true
