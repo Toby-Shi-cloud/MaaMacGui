@@ -45,10 +45,11 @@ struct CopilotListControls: View {
 
 extension CopilotContext.ListItem: CustomStringConvertible {
     var description: String {
+        let stage = stageName.isEmpty || stageName == stageCode ? stageCode : "\(stageCode) · \(stageName)"
         if isRaid == true {
-            return "\(stageCode)\(String(localized: "（突袭）"))"
+            return "\(stage)\(String(localized: "（突袭）"))"
         } else {
-            return stageCode
+            return stage
         }
     }
 }
