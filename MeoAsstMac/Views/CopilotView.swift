@@ -338,6 +338,7 @@ private struct CopilotSetDescriptionView: View {
     return VStack {
         CopilotView(context: context)
     }
+    .frame(width: 720, height: 800)
 }
 
 #Preview("SSS Copilot Config") {
@@ -352,4 +353,5 @@ private struct CopilotSetDescriptionView: View {
     return VStack {
         CopilotView(context: context)
     }
+    .frame(width: 720, height: 800)
 }
