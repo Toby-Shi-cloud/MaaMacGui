@@ -21,6 +21,7 @@ struct CopilotConfiguration: Codable, Hashable {
 
     var copilot_list = [CopilotItem]()
 
+    var enableLoop = false
     var loop_times = 1
 
     var use_sanity_potion = false
@@ -33,6 +34,7 @@ struct CopilotConfiguration: Codable, Hashable {
         let skill: Int
     }
 
+    var enableUserAdditional = false
     var user_additional = [UserUnit]()
 
     var add_trust = false
