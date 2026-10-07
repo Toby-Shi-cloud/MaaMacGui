@@ -167,8 +167,27 @@ extension NewViewModel {
             }
         } else {
             switch copilot.content {
-            case .copilot(let url, let kind, _):
-                config.filename = url.path(percentEncoded: false)
+            case .copilot(let url, let kind, let pilot):
+                let path = url.path(percentEncoded: false)
+                if kind == .regular, config.preferAdverse {
+                    // `is_raid` exists only on copilot_list entries. Repeat the entry to honor loop count,
+                    // because loop_times is ignored once a list is set.
+                    let level = await MAAProvider.shared.mapLevel(matching: pilot.stage_name)
+                    let navigation = MAACopilot.navigationOverride(code: level?.code)
+                    let times = max(config.loop_times, 1)
+                    config.filename = nil
+                    config.loop_times = 1
+                    config.copilot_list = (0..<times).map { index in
+                        .init(
+                            id: index,
+                            filename: path,
+                            nav_name_override: navigation,
+                            is_raid: true)
+                    }
+                } else {
+                    config.filename = path
+                    config.copilot_list = []
+                }
                 switch kind {
                 case .regular:
                     type = .Copilot
