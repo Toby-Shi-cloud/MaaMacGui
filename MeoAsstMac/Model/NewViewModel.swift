@@ -139,6 +139,9 @@ extension NewViewModel {
         if !config.enableLoop || copilot.category == .list {
             config.loop_times = 1
         }
+        if copilot.category != .list {
+            config.use_sanity_potion = false
+        }
 
         if copilot.category == .list {
             guard let kind = copilot.copilotSet?.kind else {
@@ -150,7 +153,7 @@ extension NewViewModel {
                 .init(
                     id: index,
                     filename: item.url.path(percentEncoded: false),
-                    nav_name_override: nil,
+                    nav_name_override: MAACopilot.navigationOverride(code: item.stageCode),
                     is_raid: item.isRaid ?? false)
             }
 
@@ -164,8 +167,27 @@ extension NewViewModel {
             }
         } else {
             switch copilot.content {
-            case .copilot(let url, let kind, _):
-                config.filename = url.path(percentEncoded: false)
+            case .copilot(let url, let kind, let pilot):
+                let path = url.path(percentEncoded: false)
+                if kind == .regular, config.preferAdverse {
+                    // `is_raid` exists only on copilot_list entries. Repeat the entry to honor loop count,
+                    // because loop_times is ignored once a list is set.
+                    let level = await MAAProvider.shared.mapLevel(matching: pilot.stage_name)
+                    let navigation = MAACopilot.navigationOverride(code: level?.code)
+                    let times = max(config.loop_times, 1)
+                    config.filename = nil
+                    config.loop_times = 1
+                    config.copilot_list = (0..<times).map { index in
+                        .init(
+                            id: index,
+                            filename: path,
+                            nav_name_override: navigation,
+                            is_raid: true)
+                    }
+                } else {
+                    config.filename = path
+                    config.copilot_list = []
+                }
                 switch kind {
                 case .regular:
                     type = .Copilot
@@ -179,7 +201,11 @@ extension NewViewModel {
             }
         }
 
-        guard let params = try? config.jsonString() else {
+        if config.filename == nil, config.copilot_list.isEmpty {
+            return
+        }
+
+        guard let params = try? config.coreParamsJSON() else {
             return
         }
 

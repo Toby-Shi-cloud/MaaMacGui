@@ -17,6 +17,16 @@
     "（突袭）" : {
 
     },
+    "（磨难）" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " (Adverse)"
+          }
+        }
+      }
+    },
     "[前往作业站…](https://prts.plus)" : {
 
     },
@@ -3040,7 +3050,14 @@
       }
     },
     "不借" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Never"
+          }
+        }
+      }
     },
     "不切换" : {
       "localizations" : {
@@ -4000,6 +4017,12 @@
     },
     "吃理智药" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use sanity potion"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4339,7 +4362,14 @@
       }
     },
     "干员名称" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Operator name"
+          }
+        }
+      }
     },
     "干员寻访" : {
       "localizations" : {
@@ -4455,7 +4485,14 @@
       }
     },
     "当前" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Current"
+          }
+        }
+      }
     },
     "当前/上次" : {
       "localizations" : {
@@ -4502,6 +4539,46 @@
     },
     "忽视干员属性要求" : {
 
+    },
+    "忽略干员属性要求" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ignore operator requirements"
+          }
+        }
+      }
+    },
+    "普通" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Normal"
+          }
+        }
+      }
+    },
+    "磨难" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adverse"
+          }
+        }
+      }
+    },
+    "磨难会在进入关卡时切换为突袭模式。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adverse switches the stage to Challenge Mode."
+          }
+        }
+      }
     },
     "成功！" : {
 
@@ -4574,6 +4651,16 @@
         }
       }
     },
+    "技能序号" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skill"
+          }
+        }
+      }
+    },
     "技能" : {
       "localizations" : {
         "en" : {
@@ -4614,7 +4701,14 @@
 
     },
     "指定" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Specified"
+          }
+        }
+      }
     },
     "指定材料" : {
       "localizations" : {
@@ -5639,7 +5733,14 @@
       }
     },
     "编队栏位" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Formation slot"
+          }
+        }
+      }
     },
     "繁中服（txwy）" : {
       "localizations" : {
@@ -5951,10 +6052,24 @@
       }
     },
     "补充低信赖干员" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add low-trust operators"
+          }
+        }
+      }
     },
     "补漏" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When Needed"
+          }
+        }
+      }
     },
     "装备：" : {
       "localizations" : {
@@ -6425,7 +6540,14 @@
       }
     },
     "随机" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Random"
+          }
+        }
+      }
     },
     "随机奖励" : {
       "localizations" : {
@@ -6439,6 +6561,12 @@
     },
     "难度" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Difficulty"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
