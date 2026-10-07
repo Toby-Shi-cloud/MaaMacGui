@@ -150,7 +150,7 @@ extension NewViewModel {
                 .init(
                     id: index,
                     filename: item.url.path(percentEncoded: false),
-                    nav_name_override: nil,
+                    nav_name_override: MAACopilot.navigationOverride(code: item.stageCode),
                     is_raid: item.isRaid ?? false)
             }
 

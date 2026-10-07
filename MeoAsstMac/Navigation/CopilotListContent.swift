@@ -17,9 +17,10 @@ struct CopilotListContent: View {
             HStack {
                 Toggle(isOn: $item.isOn) {
                     HStack(spacing: 6) {
-                        Text(item.stageCode)
+                        Text(stageTitle(item))
                             .fontWeight(.medium)
-                        if !item.stageName.isEmpty && item.stageName != item.stageCode {
+                            .lineLimit(1)
+                        if showsStageName(item) {
                             Text(item.stageName)
                                 .foregroundStyle(.secondary)
                                 .lineLimit(1)
@@ -55,6 +56,21 @@ struct CopilotListContent: View {
             }
             .buttonStyle(.borderless)
         }
+    }
+
+    private func stageTitle(_ item: CopilotContext.ListItem) -> String {
+        if let code = MAACopilot.navigationOverride(code: item.stageCode) {
+            return code
+        }
+        if !item.stageName.isEmpty {
+            return item.stageName
+        }
+        return item.stageCode
+    }
+
+    private func showsStageName(_ item: CopilotContext.ListItem) -> Bool {
+        let title = stageTitle(item)
+        return !item.stageName.isEmpty && item.stageName != title && !MAACopilot.isDecimalID(item.stageName)
     }
 
     private func move(_ id: CopilotContext.ItemID, by offset: Int) {
@@ -95,7 +111,15 @@ struct CopilotListControls: View {
 
 extension CopilotContext.ListItem: CustomStringConvertible {
     var description: String {
-        let stage = stageName.isEmpty || stageName == stageCode ? stageCode : "\(stageCode) · \(stageName)"
+        let code = MAACopilot.navigationOverride(code: stageCode)
+        let stage: String
+        if let code {
+            stage = stageName.isEmpty || stageName == code ? code : "\(code) · \(stageName)"
+        } else if !stageName.isEmpty, !MAACopilot.isDecimalID(stageName) {
+            stage = stageName
+        } else {
+            stage = stageCode
+        }
         if isRaid == true {
             return "\(stage)\(String(localized: "（突袭）"))"
         } else {
