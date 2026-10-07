@@ -173,7 +173,7 @@ private struct RegularCopilotConfigView: View {
                     }
                     .pickerStyle(.menu)
 
-                    Toggle("忽视干员属性要求", isOn: $config.ignore_requirements)
+                    Toggle("忽略干员属性要求", isOn: $config.ignore_requirements)
                         .help("跳过技能等级、模组等前置检查，可能导致作业无法正常运行；干员精英化等级仍须满足要求。")
                     Toggle("补充低信赖干员", isOn: $config.add_trust)
 
@@ -273,7 +273,7 @@ private struct UserAdditionalEditor: View {
                     ForEach($units) { $unit in
                         HStack {
                             TextField("干员名称", text: $unit.name)
-                            Picker("技能", selection: $unit.skill) {
+                            Picker("技能序号", selection: $unit.skill) {
                                 ForEach(0...3, id: \.self) { skill in
                                     Text("\(skill)").tag(skill)
                                 }

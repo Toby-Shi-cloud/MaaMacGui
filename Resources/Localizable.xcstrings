@@ -4513,6 +4513,16 @@
     "忽视干员属性要求" : {
 
     },
+    "忽略干员属性要求" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ignore operator requirements"
+          }
+        }
+      }
+    },
     "普通" : {
       "localizations" : {
         "en" : {
@@ -4610,6 +4620,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "사용자 지정 교대 폴더 열기…"
+          }
+        }
+      }
+    },
+    "技能序号" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skill"
           }
         }
       }
