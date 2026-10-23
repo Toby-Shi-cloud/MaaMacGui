@@ -183,15 +183,36 @@ enum CopilotCategory: String, CaseIterable {
     @Defaults("CopilotContentCategory")
     var category = CopilotCategory.bundled
 
-    @ObservationIgnored @Defaults("CopilotTaskList") private var savedCopilotList = Data()
-    @ObservationIgnored @Defaults("CopilotTaskListSet") private var savedCopilotSet = Data()
+    @ObservationIgnored @Defaults("CopilotTaskListState") private var savedTaskList = Data()
+
+    private struct TaskList: Codable {
+        var set: CopilotSet?
+        var items = [ListItem]()
+    }
+
+    private var taskList = TaskList() {
+        didSet {
+            saveTaskList()
+        }
+    }
+
+    private func saveTaskList() {
+        guard let data = try? JSONEncoder().encode(taskList) else { return }
+        savedTaskList = data
+    }
 
     init() {
-        if let list = try? JSONDecoder().decode([ListItem].self, from: savedCopilotList) {
-            copilotList = list
-        }
-        if let set = try? JSONDecoder().decode(CopilotSet.self, from: savedCopilotSet) {
-            copilotSet = set
+        let decoder = JSONDecoder()
+        if savedTaskList.isEmpty {
+            let defaults = UserDefaults.standard
+            let items = defaults.data(forKey: "CopilotTaskList")
+                .flatMap { try? decoder.decode([ListItem].self, from: $0) } ?? []
+            let set = defaults.data(forKey: "CopilotTaskListSet")
+                .flatMap { try? decoder.decode(CopilotSet.self, from: $0) }
+            taskList = TaskList(set: items.isEmpty ? nil : set, items: items)
+            saveTaskList()
+        } else if let saved = try? decoder.decode(TaskList.self, from: savedTaskList) {
+            taskList = saved
         }
     }
 
@@ -241,10 +262,8 @@ enum CopilotCategory: String, CaseIterable {
         let data: CopilotSetData
     }
 
-    private(set) var copilotSet: CopilotSet? {
-        didSet {
-            savedCopilotSet = (try? JSONEncoder().encode(copilotSet)) ?? Data()
-        }
+    var copilotSet: CopilotSet? {
+        taskList.set
     }
 
     struct ListItem: Codable, Identifiable {
@@ -260,12 +279,10 @@ enum CopilotCategory: String, CaseIterable {
         }
     }
 
-    var copilotList = [ListItem]() {
-        didSet {
-            savedCopilotList = (try? JSONEncoder().encode(copilotList)) ?? Data()
-            if copilotList.isEmpty {
-                copilotSet = nil
-            }
+    var copilotList: [ListItem] {
+        get { taskList.items }
+        set {
+            taskList = TaskList(set: newValue.isEmpty ? nil : taskList.set, items: newValue)
         }
     }
 }
@@ -298,13 +315,11 @@ extension CopilotContext {
             return false
         }
 
-        if copilotSet == nil {
-            copilotSet = .init(
-                kind: kind,
-                data: .init(name: String(localized: "自定义作业列表"), description: "", copilot_ids: []))
-        }
+        let set = copilotSet ?? CopilotSet(
+            kind: kind,
+            data: .init(name: String(localized: "自定义作业列表"), description: "", copilot_ids: []))
         let existing = Set(copilotList.map(\.id))
-        copilotList.append(contentsOf: items.filter { !existing.contains($0.id) })
+        taskList = TaskList(set: set, items: copilotList + items.filter { !existing.contains($0.id) })
         return true
     }
 
@@ -313,8 +328,7 @@ extension CopilotContext {
             return
         }
 
-        self.copilotSet = .init(kind: kind, data: set)
-        self.copilotList = list
+        taskList = TaskList(set: list.isEmpty ? nil : .init(kind: kind, data: set), items: list)
     }
 
     nonisolated(nonsending) func updateSet(at url: URL) async {
