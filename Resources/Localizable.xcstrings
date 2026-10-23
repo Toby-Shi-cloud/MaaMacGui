@@ -3187,6 +3187,16 @@
         }
       }
     },
+    "以下文件未能加入作业列表" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The following files could not be added to the copilot list"
+          }
+        }
+      }
+    },
     "任务" : {
       "localizations" : {
         "ko" : {
