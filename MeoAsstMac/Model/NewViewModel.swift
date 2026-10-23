@@ -155,7 +155,11 @@ extension NewViewModel {
             }
 
             config.filename = nil
-            config.copilot_list = copilot.copilotList.filter(\.isOn).enumerated().map { index, item in
+            // A missing file makes Core reject the whole list, so skip entries whose file was removed.
+            let items = copilot.copilotList.filter {
+                $0.isOn && FileManager.default.fileExists(atPath: $0.url.path(percentEncoded: false))
+            }
+            config.copilot_list = items.enumerated().map { index, item in
                 .init(
                     id: index,
                     filename: item.url.path(percentEncoded: false),

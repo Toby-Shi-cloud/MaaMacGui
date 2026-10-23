@@ -224,6 +224,13 @@ enum CopilotCategory: String, CaseIterable {
         } else if let saved = try? decoder.decode(TaskList.self, from: savedTaskList) {
             taskList = saved
         }
+
+        // Saved paths go stale when a job file is deleted or moves with an app update; Core rejects the whole list.
+        let items = taskList.items.filter { FileManager.default.fileExists(atPath: $0.url.path(percentEncoded: false)) }
+        if items.count != taskList.items.count {
+            taskList = TaskList(set: items.isEmpty ? nil : taskList.set, items: items)
+            saveTaskList()
+        }
     }
 
     struct ItemID: Hashable {
