@@ -46,7 +46,8 @@ struct CopilotView: View {
                     }
                 }
                 .buttonStyle(.bordered)
-                .disabled(context.copilotSet?.kind != nil && context.copilotSet?.kind != kind)
+                // SSSCopilot takes a single filename only.
+                .disabled(kind == .sss || (context.copilotSet?.kind != nil && context.copilotSet?.kind != kind))
                 CopilotConfigView(
                     kind: kind, isList: false, config: $context.config, adverse: adverseSelection(context)
                 ) {

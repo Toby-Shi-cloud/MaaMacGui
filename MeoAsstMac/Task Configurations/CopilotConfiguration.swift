@@ -83,8 +83,9 @@ extension CopilotConfiguration.SupportUnitUsage: CustomStringConvertible {
 extension CopilotConfiguration {
     /// JSON passed to Core. UI-only fields (`enableLoop`, `enableUserAdditional`, `preferAdverse`) are omitted.
     /// `filename` and `copilot_list` are mutually exclusive; a null filename must not be sent or Core ignores the list.
-    func coreParamsJSON() throws -> String {
-        try CoreParams(self).jsonString()
+    /// ParadoxCopilot reads its list from `list` instead of `copilot_list`.
+    func coreParamsJSON(type: MAATaskType) throws -> String {
+        try CoreParams(self, paradox: type == .ParadoxCopilot).jsonString()
     }
 
     private struct CoreParams: Encodable {
@@ -100,8 +101,10 @@ extension CopilotConfiguration {
         var ignore_requirements: Bool
         var support_unit_usage: SupportUnitUsage
         var support_unit_name: String
+        var paradox: Bool
 
-        init(_ configuration: CopilotConfiguration) {
+        init(_ configuration: CopilotConfiguration, paradox: Bool) {
+            self.paradox = paradox
             enable = configuration.enable
             filename = configuration.filename
             copilot_list = configuration.copilot_list
@@ -122,7 +125,7 @@ extension CopilotConfiguration {
             if let filename {
                 try container.encode(filename, forKey: .filename)
             } else if !copilot_list.isEmpty {
-                try container.encode(copilot_list, forKey: .copilot_list)
+                try container.encode(copilot_list, forKey: paradox ? .list : .copilot_list)
             }
             try container.encode(loop_times, forKey: .loop_times)
             try container.encode(use_sanity_potion, forKey: .use_sanity_potion)
@@ -148,6 +151,7 @@ extension CopilotConfiguration {
             case enable
             case filename
             case copilot_list
+            case list
             case loop_times
             case use_sanity_potion
             case formation
@@ -327,6 +331,7 @@ extension CopilotContext {
         guard let copilot = MAACopilot(url: url),
             let (kind, items) = await copilot.listItems(at: url, isRaid: isRaid),
             !items.isEmpty,
+            kind != .sss,
             copilotSet?.kind == nil || copilotSet?.kind == kind
         else {
             return false
@@ -401,6 +406,10 @@ extension CopilotSetData {
             copilotList.append(contentsOf: items)
         }
 
+        // SSSCopilot has no list mode.
+        if lastCopilotKind == .sss {
+            return nil
+        }
         return (lastCopilotKind ?? .regular, copilotList)
     }
 }

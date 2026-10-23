@@ -213,7 +213,7 @@ extension NewViewModel {
             return
         }
 
-        guard let params = try? config.coreParamsJSON() else {
+        guard let params = try? config.coreParamsJSON(type: type) else {
             return
         }
 
