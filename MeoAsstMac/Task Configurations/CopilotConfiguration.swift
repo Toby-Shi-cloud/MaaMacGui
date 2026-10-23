@@ -177,7 +177,14 @@ enum CopilotCategory: String, CaseIterable {
 }
 
 @Observable final class CopilotContext {
-    var config = CopilotConfiguration()
+    var config = CopilotConfiguration() {
+        didSet {
+            guard let data = try? JSONEncoder().encode(config) else { return }
+            savedConfig = data
+        }
+    }
+
+    @ObservationIgnored @Defaults("CopilotConfiguration") private var savedConfig = Data()
 
     @ObservationIgnored
     @Defaults("CopilotContentCategory")
@@ -203,6 +210,9 @@ enum CopilotCategory: String, CaseIterable {
 
     init() {
         let decoder = JSONDecoder()
+        if let saved = try? decoder.decode(CopilotConfiguration.self, from: savedConfig) {
+            config = saved
+        }
         if savedTaskList.isEmpty {
             let defaults = UserDefaults.standard
             let items = defaults.data(forKey: "CopilotTaskList")
