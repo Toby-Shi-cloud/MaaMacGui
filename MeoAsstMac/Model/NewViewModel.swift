@@ -145,10 +145,6 @@ extension NewViewModel {
         if !config.enableLoop || copilot.category == .list {
             config.loop_times = 1
         }
-        if copilot.category != .list {
-            config.use_sanity_potion = false
-        }
-
         if copilot.category == .list {
             guard let kind = copilot.copilotSet?.kind else {
                 return
@@ -195,8 +191,10 @@ extension NewViewModel {
                             is_raid: true)
                     }
                 } else {
+                    // Core reads the sanity potion flag only for copilot_list runs.
                     config.filename = path
                     config.copilot_list = []
+                    config.use_sanity_potion = false
                 }
                 switch kind {
                 case .regular:

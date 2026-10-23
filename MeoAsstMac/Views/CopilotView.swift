@@ -213,9 +213,10 @@ private struct RegularCopilotConfigView: View {
                     .pickerStyle(.menu)
                     .help("磨难会在进入关卡时切换为突袭模式。")
                 }
-                if isList {
+                if isList || adverse?.wrappedValue == true {
                     Toggle("吃理智药", isOn: $config.use_sanity_potion)
-                } else {
+                }
+                if !isList {
                     CopilotLoopView(config: $config)
                 }
             }
