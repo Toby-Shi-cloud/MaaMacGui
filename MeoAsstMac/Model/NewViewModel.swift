@@ -134,8 +134,6 @@ extension NewViewModel {
         isStartingCopilot = true
         defer { isStartingCopilot = false }
 
-        copilotStartToken = UUID()
-
         var config = copilot.config
         let type: MAATaskType
 
@@ -218,6 +216,7 @@ extension NewViewModel {
         }
 
         guard parent.status == .idle else { return }
+        copilotStartToken = UUID()
         try await parent.startCopilot(type: type, params: params)
     }
 
